@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#203f29">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Farm Manager">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<title>Mushroom Farm Manager</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap');
+:root{--bg:#f4f1e9;--card:#fff;--ink:#182018;--muted:#687064;--green:#315b3a;--green2:#e7f0e8;--gold:#9a6a13;--gold2:#fff2d6;--red:#963f35;--red2:#fae9e6;--line:#d9d6cc;--shadow:0 8px 28px rgba(35,45,32,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,sans-serif}.shell{min-height:100vh;display:grid;grid-template-columns:230px 1fr}.side{background:#203f29;color:white;padding:24px 16px;position:sticky;top:0;height:100vh}.brand{font:25px/1.05 "DM Serif Display",serif;margin:3px 8px 5px}.brand-sub{font-size:11px;opacity:.65;margin:0 8px 24px}.nav button{display:flex;width:100%;align-items:center;gap:10px;border:0;background:transparent;color:rgba(255,255,255,.72);padding:11px 12px;border-radius:8px;font:500 13px Inter;cursor:pointer;text-align:left}.nav button:hover,.nav button.on{background:rgba(255,255,255,.12);color:white}.nav b{font-size:16px;width:20px}.side-foot{position:absolute;bottom:18px;left:16px;right:16px;font-size:10px;opacity:.55}.main{padding:28px;min-width:0}.view{display:none}.view.on{display:block}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}.title{font:32px/1.1 "DM Serif Display",serif;margin:0}.sub{color:var(--muted);margin-top:5px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:white;color:var(--ink);border-radius:7px;padding:9px 13px;font:600 12px Inter;cursor:pointer}.btn:hover{border-color:#91a492}.btn.primary{background:var(--green);color:white;border-color:var(--green)}.btn.danger{color:var(--red)}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}.stat{padding:16px}.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.value{font:24px/1.2 "DM Serif Display",serif;margin-top:5px}.hint{font-size:11px;color:var(--muted);margin-top:4px}.two{grid-template-columns:1.35fr 1fr}.card{padding:18px}.card h3{font-size:14px;margin:0 0 14px}.progress{height:9px;background:#e9e7df;border-radius:20px;overflow:hidden;margin:8px 0}.progress i{display:block;height:100%;background:var(--green);border-radius:20px}.row{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:9px;background:white}table{border-collapse:collapse;width:100%;min-width:820px}th{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:#f8f7f2;text-align:left;padding:10px;border-bottom:1px solid var(--line)}td{padding:10px;border-bottom:1px solid #eceae3;font-size:12px;vertical-align:middle}tbody tr:last-child td{border-bottom:0}.money{font-variant-numeric:tabular-nums;font-weight:600}.tag{display:inline-block;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:600;background:#eee}.planned{background:var(--gold2);color:var(--gold)}.ordered{background:#e8eef6;color:#3c5875}.bought{background:var(--green2);color:var(--green)}.income{color:var(--green)}.expense{color:var(--red)}.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase}.input,select,textarea{border:1px solid var(--line);border-radius:7px;background:white;padding:9px 10px;font:12px Inter;color:var(--ink);outline:none}.input:focus,select:focus,textarea:focus{border-color:#6e9176;box-shadow:0 0 0 3px rgba(49,91,58,.08)}.toolbar .input{min-width:230px}.icon-btn{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:5px}.icon-btn:hover{color:var(--ink)}.empty{text-align:center;color:var(--muted);padding:36px}.modal{position:fixed;inset:0;background:rgba(20,25,20,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:30}.modal.on{display:flex}.dialog{background:white;border-radius:12px;padding:20px;width:min(620px,100%);max-height:90vh;overflow:auto;box-shadow:0 25px 70px rgba(0,0,0,.22)}.dialog h2{font:24px "DM Serif Display",serif;margin:0 0 16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.span2{grid-column:1/-1}.search-box{background:linear-gradient(135deg,#23492d,#416f4a);color:white;border-radius:13px;padding:24px;margin-bottom:18px}.search-box h2{font:27px "DM Serif Display",serif;margin:0 0 5px}.search-line{display:flex;gap:8px;margin-top:16px}.search-line input{flex:1;border:0;padding:12px 14px;border-radius:8px;font:14px Inter}.stores{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.store{background:rgba(255,255,255,.12);padding:7px 10px;border-radius:6px;font-size:11px}.store input{vertical-align:middle;margin-right:5px}.result-links{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.shop-link{display:block;background:white;border:1px solid var(--line);padding:15px;border-radius:9px;color:var(--ink);text-decoration:none}.shop-link:hover{border-color:#6e9176;box-shadow:var(--shadow)}.shop-link b{display:block;margin-bottom:3px}.shop-link span{font-size:11px;color:var(--muted)}.month-list{display:grid;gap:8px}.month-row{display:grid;grid-template-columns:85px 1fr 90px;gap:10px;align-items:center;font-size:11px}.bar{height:8px;background:#eee;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green)}.bar.neg i{background:var(--red)}.note{border-left:3px solid var(--gold);background:var(--gold2);padding:12px 14px;border-radius:5px;font-size:12px}.toast{position:fixed;right:22px;bottom:22px;background:#203f29;color:white;padding:11px 16px;border-radius:8px;opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none;z-index:50}.toast.on{opacity:1;transform:none}.small{font-size:11px;color:var(--muted)}.plan-list{display:grid;gap:10px}.plan-item{background:white;border:1px solid var(--line);border-radius:9px;padding:14px}.plan-item summary{cursor:pointer;font-weight:600}.plan-item p{color:var(--muted);font-size:12px}.danger-zone{border-color:#e5b5ae}.positive{color:var(--green)}.negative{color:var(--red)}
+.sync-status{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);margin-bottom:12px}.sync-dot{width:9px;height:9px;border-radius:50%;background:#a8aaa5}.sync-dot.on{background:#49a461}.sync-dot.busy{background:#d9a52f}.sync-dot.err{background:#c65345}.codebox{width:100%;min-height:155px;font:11px/1.45 ui-monospace,Consolas,monospace;background:#f7f7f4}textarea{overflow-y:hidden;resize:none;min-height:72px}.codebox{overflow-y:auto;resize:vertical}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:static;height:auto;padding:14px}.brand-sub,.side-foot{display:none}.nav{display:flex;overflow:auto}.nav button{min-width:max-content}.main{padding:18px}.stats{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.result-links{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.stats,.result-links,.form-grid{grid-template-columns:1fr}.span2{grid-column:auto}.top{display:block}.actions{margin-top:12px}.search-line{display:block}.search-line button{width:100%;margin-top:8px}}
+/* Luxury editorial plan */
+.plan-hero{position:relative;overflow:hidden;background:#161d18;color:#f6f0e5;border-radius:2px;padding:42px 44px;margin-bottom:18px;box-shadow:0 22px 60px rgba(22,29,24,.18)}.plan-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 20%,rgba(194,155,78,.22),transparent 32%),linear-gradient(120deg,transparent 55%,rgba(255,255,255,.035) 55%)}.plan-hero>*{position:relative}.plan-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#d2b36f;margin-bottom:12px}.plan-hero h1{font:42px/1.02 "DM Serif Display",serif;letter-spacing:.01em;margin:0;max-width:650px}.plan-hero p{max-width:620px;color:rgba(246,240,229,.68);margin:14px 0 0;font-size:13px}.plan-meta{display:flex;gap:30px;margin-top:28px}.plan-meta b{display:block;font:22px "DM Serif Display",serif;color:#fff}.plan-meta span{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:rgba(246,240,229,.48)}.plan-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 13px}.plan-toolbar-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}.plan-list{display:grid;gap:16px;counter-reset:chapter}.plan-item{counter-increment:chapter;background:#fbfaf6;border:1px solid #d9d2c3;border-radius:2px;padding:0;box-shadow:0 10px 35px rgba(41,38,30,.06);overflow:hidden;transition:transform .2s,box-shadow .2s}.plan-item:hover{transform:translateY(-2px);box-shadow:0 17px 45px rgba(41,38,30,.1)}.plan-item-head{display:grid;grid-template-columns:70px 1fr auto;gap:20px;align-items:center;padding:25px 28px;border-bottom:1px solid #e7e1d5}.plan-number{font:32px/1 "DM Serif Display",serif;color:#a47b30}.plan-number:before{content:counter(chapter,decimal-leading-zero)}.plan-kicker{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#9a7b43;margin-bottom:5px}.plan-title{font:23px/1.15 "DM Serif Display",serif;color:#20241f}.plan-controls{display:flex;gap:6px}.plan-control{border:0;background:transparent;padding:7px 9px;color:#777268;font:600 10px Inter;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}.plan-control:hover{color:#8c6827}.plan-control.delete:hover{color:var(--red)}.plan-body{padding:25px 28px 30px 118px}.plan-reading{max-width:850px;color:#4d504a}.plan-line{font-size:13px;line-height:1.75;margin:0 0 7px}.plan-line.heading{font:18px/1.25 "DM Serif Display",serif;color:#242923;margin:24px 0 10px;padding-top:18px;border-top:1px solid #e8e1d3}.plan-line.heading:first-child{margin-top:0;padding-top:0;border-top:0}.plan-line.bullet{position:relative;padding-left:19px;color:#555a53}.plan-line.bullet:before{content:"";position:absolute;left:1px;top:.72em;width:5px;height:5px;border-radius:50%;background:#b38b43}.plan-line.check{position:relative;padding-left:24px}.plan-line.check:before{content:"";position:absolute;left:0;top:.3em;width:13px;height:13px;border:1px solid #b49b6c}.plan-line.spacer{height:8px}.plan-editor{display:none}.plan-item.editing .plan-reading{display:none}.plan-item.editing .plan-editor{display:block}.plan-editor textarea{width:100%;border:0;border-left:2px solid #b38b43;border-radius:0;background:#fff;padding:18px 20px;font:13px/1.75 Inter;color:#30342f;box-shadow:none}.plan-editor-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.plan-save{background:#1f3e28;color:#fff;border-color:#1f3e28}.plan-add{background:#1a211c;color:#f7f2e8;border:1px solid #1a211c;border-radius:2px;padding:10px 16px;font:600 11px Inter;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}.plan-add:hover{background:#2d4933}.plan-reference{color:#6e685f;text-decoration:none;font-size:11px;border-bottom:1px solid #bca77e;padding-bottom:2px}.plan-reference:hover{color:#8c6827}
+@media(max-width:900px){.plan-body{padding-left:28px}.plan-hero{padding:34px}.plan-hero h1{font-size:36px}}
+@media(max-width:560px){.plan-hero{padding:28px 22px}.plan-hero h1{font-size:31px}.plan-meta{gap:18px}.plan-item-head{grid-template-columns:45px 1fr;padding:20px}.plan-controls{grid-column:2}.plan-body{padding:22px 20px}.plan-title{font-size:20px}}
+/* Saved plan posts */
+.plan-menu-wrap{position:relative}.plan-menu-button{width:36px;height:36px;border:1px solid transparent;border-radius:50%;background:transparent;color:#716d64;font:700 20px/1 Inter;letter-spacing:2px;cursor:pointer;display:grid;place-items:center;padding:0 0 8px 2px}.plan-menu-button:hover,.plan-menu-button[aria-expanded="true"]{border-color:#d5c9b4;background:#f2ede3;color:#725421}.plan-menu{position:absolute;right:0;top:42px;z-index:12;display:none;min-width:140px;padding:6px;background:#fff;border:1px solid #d9d2c3;box-shadow:0 15px 40px rgba(28,31,27,.16)}.plan-menu.open{display:block}.plan-menu button{display:block;width:100%;border:0;background:transparent;padding:10px 12px;text-align:left;font:600 11px Inter;color:#43463f;cursor:pointer}.plan-menu button:hover{background:#f5f1e9;color:#7b5920}.plan-menu button.delete{color:var(--red)}.plan-body{padding:30px 34px 36px 118px;background:linear-gradient(180deg,#fffefa,#fbfaf6)}.plan-line{line-height:1.78;margin-bottom:8px}.plan-line.heading{margin:26px 0 12px;padding-top:20px}.plan-line.bullet{padding:7px 12px 7px 25px;margin-bottom:4px;border-radius:2px}.plan-line.bullet:hover{background:#f5f1e8}.plan-line.bullet:before{left:8px;top:1.12em}.plan-line.check{padding:7px 12px 7px 30px;margin-bottom:4px;background:#f7f4ed;border-left:2px solid #d0b879}.plan-line.check:before{left:9px;top:.75em;width:12px;height:12px;background:#fff}.plan-item.editing .plan-body{background:#f8f5ee}.plan-editor textarea{border:1px solid #d8cdb9;border-left:3px solid #b38b43;border-radius:2px;padding:20px 22px;box-shadow:inset 0 1px 4px rgba(30,31,28,.04)}
+.install-card{background:linear-gradient(135deg,#1c3824,#315b3a);color:#fff;border:0}.install-card h3{font:24px "DM Serif Display",serif;margin-bottom:5px}.install-card .small{color:rgba(255,255,255,.7)}.install-status{display:flex;align-items:center;gap:8px;margin:14px 0;font-size:11px}.install-status i{width:9px;height:9px;border-radius:50%;background:#d2b36f}.install-status.ready i{background:#72c788}.install-steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.install-step{padding:13px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);font-size:11px}.install-step b{display:block;color:#d9bc7d;margin-bottom:4px;text-transform:uppercase;letter-spacing:.08em;font-size:9px}.install-card .btn{background:#f6f0e5;border-color:#f6f0e5;color:#203f29}.offline-badge{display:inline-block;padding:3px 8px;border:1px solid rgba(255,255,255,.25);border-radius:20px;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+/* iPhone and installed-mobile app shell */
+@media(max-width:700px){
+  html,body{min-height:100%;background:#f3f1eb;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none}
+  body{padding:0;font-size:14px;-webkit-font-smoothing:antialiased}
+  button,a,input,select,textarea{touch-action:manipulation}
+  .shell{display:block;min-height:100dvh;padding:0}
+  .side{position:fixed;z-index:25;left:0;right:0;top:0;width:auto;height:calc(58px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 18px 0;background:rgba(32,63,41,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .brand{height:58px;display:flex;align-items:center;margin:0;font:20px/1 "DM Serif Display",serif}.brand br{display:none}.brand:after{content:"";width:7px;height:7px;border-radius:50%;background:#d2b36f;margin-left:8px}
+  .brand-sub,.side-foot{display:none}
+  .nav{position:fixed;z-index:30;left:0;right:0;bottom:0;height:calc(66px + env(safe-area-inset-bottom));padding:5px 6px env(safe-area-inset-bottom);display:grid;grid-template-columns:repeat(6,1fr);background:rgba(250,249,245,.94);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid rgba(58,61,55,.14);box-shadow:0 -8px 28px rgba(33,39,31,.08);overflow:visible}
+  .nav button{min-width:0;width:auto;height:56px;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:4px 1px;border-radius:10px;color:#73766f;font-size:0;font-weight:600;line-height:1.05;text-align:center}.nav button:after{content:attr(data-mobile);font-size:8px}
+  .nav button:hover{color:#73766f}.nav button.on{background:#e9f0e9;color:#23482d}
+  .nav b{width:auto;height:24px;font:20px/24px Inter}
+  .main{padding:calc(76px + env(safe-area-inset-top)) 14px calc(86px + env(safe-area-inset-bottom));min-height:100dvh}
+  .view{animation:mobileViewIn .18s ease-out}.view.on{display:block}
+  @keyframes mobileViewIn{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:none}}
+  .top{display:block;margin:4px 2px 18px}.title{font-size:30px}.sub{font-size:12px;line-height:1.45}.top>.actions,.top>.btn{margin-top:12px}
+  .actions{gap:7px}.btn{min-height:44px;padding:11px 14px;border-radius:11px;font-size:12px}
+  .grid{gap:11px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px;border-radius:16px;box-shadow:0 5px 18px rgba(35,45,32,.06)}.stat .value{font-size:21px}.stat .hint{font-size:9px}
+  .two{grid-template-columns:1fr}.card{padding:16px;border-radius:16px;box-shadow:0 5px 20px rgba(35,45,32,.06)}
+  .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toolbar .input{grid-column:1/-1;min-width:0;width:100%}
+  .input,select,textarea{min-height:44px;padding:11px 12px;border-radius:10px;font-size:16px}
+  .table-wrap{overflow:visible;border:0;background:transparent}.table-wrap table,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%;min-width:0}.table-wrap thead{display:none}.table-wrap tbody{display:grid;gap:10px}
+  .table-wrap tr{position:relative;padding:15px 15px 13px;background:#fff;border:1px solid #dedbd1;border-radius:16px;box-shadow:0 5px 18px rgba(35,45,32,.055)}
+  .table-wrap td{min-height:0;padding:5px 0 5px 41%;border:0;font-size:12px;word-break:break-word}
+  .table-wrap td:before{position:absolute;left:15px;width:35%;color:#85877f;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+  #items .table-wrap td:nth-child(1){padding:0 50px 12px 0;border-bottom:1px solid #efede6;font-size:14px}#items .table-wrap td:nth-child(1):before{display:none}
+  #items .table-wrap td:nth-child(2):before{content:"Category"}#items .table-wrap td:nth-child(3):before{content:"Quantity"}#items .table-wrap td:nth-child(4):before{content:"Budget"}#items .table-wrap td:nth-child(5):before{content:"Actual"}#items .table-wrap td:nth-child(6):before{content:"Supplier"}#items .table-wrap td:nth-child(7):before{content:"Status"}
+  #items .table-wrap td:nth-child(8),#cashflow .table-wrap td:nth-child(7){padding:9px 0 0;margin-top:5px;border-top:1px solid #efede6;display:flex;gap:6px;flex-wrap:wrap}#items .table-wrap td:nth-child(8):before,#cashflow .table-wrap td:nth-child(7):before{display:none}
+  #cashflow .table-wrap td:nth-child(1):before{content:"Date"}#cashflow .table-wrap td:nth-child(2){padding-top:10px;padding-bottom:10px}#cashflow .table-wrap td:nth-child(2):before{content:"Description"}#cashflow .table-wrap td:nth-child(3):before{content:"Category"}#cashflow .table-wrap td:nth-child(4):before{content:"Type"}#cashflow .table-wrap td:nth-child(5):before{content:"Method"}#cashflow .table-wrap td:nth-child(6):before{content:"Amount"}
+  .icon-btn{min-height:36px;padding:8px 11px;background:#f3f1eb;border-radius:9px;color:#3f5042}
+  .modal{align-items:flex-end;padding:0;background:rgba(17,22,18,.46);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+  .dialog{width:100%;max-height:92dvh;padding:20px 18px calc(20px + env(safe-area-inset-bottom));border-radius:22px 22px 0 0;box-shadow:0 -18px 50px rgba(0,0,0,.2)}.dialog:before{content:"";display:block;width:38px;height:5px;border-radius:5px;background:#d7d5ce;margin:-8px auto 14px}.dialog h2{font-size:27px}
+  .form-grid{grid-template-columns:1fr}.span2{grid-column:auto}
+  .search-box{padding:21px 18px;border-radius:18px}.search-line{display:block}.search-line button{width:100%;margin-top:8px}.stores{gap:6px}.store{padding:8px}
+  .result-links{grid-template-columns:1fr}.shop-link{border-radius:14px}
+  .month-row{grid-template-columns:70px 1fr 82px}
+  .plan-hero{margin:0 -14px 16px;padding:28px 20px 25px;border-radius:0;box-shadow:none}.plan-hero h1{font-size:31px}.plan-meta{gap:18px;overflow:auto}.plan-toolbar{align-items:flex-start}.plan-toolbar .actions{justify-content:flex-end}.plan-item{border-radius:15px}.plan-item:hover{transform:none}.plan-item-head{grid-template-columns:42px 1fr auto;gap:10px;padding:18px 14px}.plan-number{font-size:25px}.plan-title{font-size:20px}.plan-body{padding:20px 16px 24px}.plan-line{font-size:13px}.plan-line.heading{font-size:17px}.plan-menu-button{width:42px;height:42px}.plan-menu{position:fixed;left:14px;right:14px;top:auto;bottom:calc(76px + env(safe-area-inset-bottom));border-radius:15px;padding:8px}.plan-menu button{min-height:46px;border-radius:9px;font-size:13px}
+  .install-steps{grid-template-columns:1fr}.install-card{border-radius:18px}
+  .toast{left:14px;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));text-align:center;border-radius:12px}
+}
+@media(max-width:380px){.nav button{font-size:7px}.nav b{font-size:18px}.main{padding-left:10px;padding-right:10px}.stats{gap:7px}.stat{padding:12px}.plan-hero{margin-left:-10px;margin-right:-10px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand">Mushroom<br>Farm Manager</div>
+    <div class="brand-sub">Sirmaur operations workspace</div>
+    <nav class="nav">
+      <button class="on" data-view="dashboard" data-mobile="Home"><b>⌂</b> Dashboard</button>
+      <button data-view="items" data-mobile="Items"><b>□</b> Items & Purchases</button>
+      <button data-view="cashflow" data-mobile="Cash"><b>₹</b> Cash Flow</button>
+      <button data-view="search" data-mobile="Search"><b>⌕</b> Store Search</button>
+      <button data-view="plan" data-mobile="Plan"><b>☷</b> Plan & Notes</button>
+      <button data-view="settings" data-mobile="More"><b>⚙</b> Backup & Settings</button>
+    </nav>
+    <div class="side-foot">Data is saved in this browser.<br>Export backups regularly.</div>
+  </aside>
+  <main class="main">
+    <section class="view on" id="dashboard">
+      <div class="top"><div><h1 class="title">Farm overview</h1><div class="sub" id="todayText"></div></div><div class="actions"><button class="btn" onclick="openItem()">+ Add item</button><button class="btn primary" onclick="openTxn()">+ Add transaction</button></div></div>
+      <div class="grid stats" id="stats"></div>
+      <div class="grid two">
+        <div class="card"><div class="row between"><h3>Procurement progress</h3><span class="small" id="progressLabel"></span></div><div class="progress"><i id="progressBar"></i></div><div id="recentItems"></div></div>
+        <div class="card"><h3>Current cash position</h3><div id="cashSummary"></div></div>
+      </div>
+      <div class="grid two" style="margin-top:14px">
+        <div class="card"><h3>Recent transactions</h3><div id="recentTxns"></div></div>
+        <div class="card"><h3>Quick reminders</h3><div class="note">Store invoices and subsidy sanction letters with each purchase. A quoted subsidy is not cash in hand until it is sanctioned and disbursed.</div><textarea id="quickNotes" rows="6" style="width:100%;margin-top:12px" placeholder="Add farm reminders..."></textarea></div>
+      </div>
+    </section>
+
+    <section class="view" id="items">
+      <div class="top"><div><h1 class="title">Items & purchases</h1><div class="sub">Plan, compare, buy and record every farm item.</div></div><button class="btn primary" onclick="openItem()">+ Add item</button></div>
+      <div class="toolbar"><input class="input" id="itemSearch" placeholder="Search items, suppliers or categories"><select id="itemStatus"><option value="">All statuses</option><option>Planned</option><option>Ordered</option><option>Bought</option></select><select id="itemCategory"><option value="">All categories</option></select></div>
+      <div class="table-wrap"><table><thead><tr><th>Item</th><th>Category</th><th>Qty</th><th>Budget</th><th>Actual</th><th>Supplier</th><th>Status</th><th>Actions</th></tr></thead><tbody id="itemRows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="cashflow">
+      <div class="top"><div><h1 class="title">Cash flow</h1><div class="sub">Track income, expenses, payment methods and monthly balance.</div></div><button class="btn primary" onclick="openTxn()">+ Add transaction</button></div>
+      <div class="grid stats" id="cashStats"></div>
+      <div class="grid two">
+        <div class="card"><h3>Monthly net movement</h3><div class="month-list" id="monthlyFlow"></div></div>
+        <div class="card"><h3>Management view</h3><div class="field"><label>Opening cash balance</label><input class="input" id="openingBalance" type="number" step="0.01"></div><div id="managementSummary" style="margin-top:14px"></div></div>
+      </div>
+      <div class="toolbar" style="margin-top:18px"><input class="input" id="txnSearch" placeholder="Search transactions"><select id="txnType"><option value="">Income and expenses</option><option>Income</option><option>Expense</option></select></div>
+      <div class="table-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Type</th><th>Method</th><th>Amount</th><th>Actions</th></tr></thead><tbody id="txnRows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="search">
+      <div class="top"><div><h1 class="title">Store search</h1><div class="sub">Run one product search across selected Indian storefronts.</div></div></div>
+      <div class="search-box"><h2>What do you need?</h2><div>Search products and compare offers in separate store tabs.</div><div class="search-line"><input id="storeQuery" placeholder="Example: 8mm double bubble foil insulation"><button class="btn primary" onclick="searchStores()">Search selected stores</button></div><div class="stores" id="storeChecks"></div></div>
+      <div class="note">Storefronts do not reliably permit embedded results or direct automated price collection. This search safely creates matching store links and can open the selected searches together. Check GST, freight, seller rating, specification and return terms before buying.</div>
+      <h3 style="margin-top:20px">Search links</h3><div class="result-links" id="storeLinks"></div>
+    </section>
+
+    <section class="view" id="plan">
+      <div class="plan-hero">
+        <div class="plan-eyebrow">Sirmaur Hills · Cultivation Dossier</div>
+        <h1>The Mushroom Farm<br>Execution Collection</h1>
+        <p>A living operational record, from first approvals and construction through cultivation, market entry and long-term farm management.</p>
+        <div class="plan-meta"><div><b id="planSectionCount">12</b><span>Chapters</span></div><div><b>18</b><span>Month roadmap</span></div><div><b>8 mm</b><span>Insulation spec</span></div></div>
+      </div>
+      <div class="plan-toolbar"><div class="plan-toolbar-label">The complete working plan</div><div class="actions"><button class="plan-add" onclick="addPlanSection()">Add chapter</button><a class="plan-reference" href="mushroom_execution_plan.html" target="_blank">View original reference ↗</a></div></div>
+      <div class="plan-list" id="planList"></div>
+    </section>
+
+    <section class="view" id="settings">
+      <div class="top"><div><h1 class="title">Backup, sync & settings</h1><div class="sub">Keep local backups and optionally synchronize the farm across devices.</div></div></div>
+      <div class="grid two">
+        <div class="card span2 install-card">
+          <div class="row between"><div><h3>Install on your phone</h3><div class="small">Use the farm manager like a regular app on iPhone, iPad and Android.</div></div><span class="offline-badge">Offline enabled</span></div>
+          <div class="install-status" id="installStatus"><i></i><span>Checking installation availability…</span></div>
+          <div class="actions"><button class="btn" id="installAppButton" onclick="installApp()" hidden>Install app</button></div>
+          <div class="install-steps">
+            <div class="install-step"><b>iPhone / iPad</b>Open the deployed website in Safari, tap Share, then choose “Add to Home Screen”.</div>
+            <div class="install-step"><b>Android</b>Open in Chrome and tap “Install app”, or use the browser menu and choose “Add to Home screen”.</div>
+          </div>
+          <p class="small" style="margin:12px 0 0">After the first online load, the app opens offline. Local edits are retained and Supabase sync resumes when internet returns.</p>
+        </div>
+        <div class="card span2">
+          <div class="row between"><h3>Cloud sync across devices</h3><span class="tag planned">Optional</span></div>
+          <div class="sync-status"><i class="sync-dot" id="syncDot"></i><span id="syncStatus">Local-only mode</span></div>
+          <p class="small">Connect a free Supabase project, then sign in with the same account on each device. Never paste a service-role key here; use only the public anon or publishable key.</p>
+          <div class="form-grid">
+            <div class="field"><label>Supabase project URL</label><input class="input" id="syncUrl" placeholder="https://your-project.supabase.co"></div>
+            <div class="field"><label>Public anon / publishable key</label><input class="input" id="syncAnonKey" type="password" placeholder="Public browser key only"></div>
+            <div class="field"><label>Email</label><input class="input" id="syncEmail" type="email"></div>
+            <div class="field"><label>Password</label><input class="input" id="syncPassword" type="password" minlength="6"></div>
+          </div>
+          <div class="actions" style="margin-top:12px"><button class="btn primary" onclick="cloudSignIn()">Sign in</button><button class="btn" onclick="cloudSignUp()">Create account</button><button class="btn" onclick="cloudPull(true)">Merge cloud changes</button><button class="btn" onclick="cloudPush(true)">Sync this device</button><button class="btn danger" onclick="cloudSignOut()">Sign out</button></div>
+          <details style="margin-top:14px"><summary class="small" style="cursor:pointer;font-weight:600">One-time database setup</summary><p class="small">Run this once in the Supabase SQL editor. Row-level security limits each account to its own farm record.</p><textarea class="codebox" id="syncSql" readonly></textarea><button class="btn" style="margin-top:8px" onclick="copySyncSql()">Copy setup SQL</button></details>
+        </div>
+        <div class="card"><h3>Data backup</h3><p class="small">Export all items, transactions, notes and plan sections to one JSON file.</p><div class="actions"><button class="btn primary" onclick="exportData()">Export backup</button><button class="btn" onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" type="file" accept=".json" hidden></div></div>
+        <div class="card"><h3>Spreadsheet exports</h3><p class="small">Export procurement and cash-flow tables as CSV files.</p><div class="actions"><button class="btn" onclick="exportCSV('items')">Items CSV</button><button class="btn" onclick="exportCSV('transactions')">Cash flow CSV</button></div></div>
+        <div class="card span2"><div class="row between"><div><h3>Duplicate review</h3><p class="small">Possible duplicate purchases added on different devices are preserved until you review them.</p></div><span class="tag planned" id="duplicateCount">0 to review</span></div><div id="duplicateReview"></div></div>
+        <div class="card"><h3>Farm identity</h3><div class="field"><label>Farm name</label><input class="input" id="farmName"></div><div class="field" style="margin-top:10px"><label>Currency</label><select id="currency"><option value="INR">Indian Rupee (₹)</option></select></div></div>
+        <div class="card danger-zone"><h3>Reset app</h3><p class="small">This removes locally saved edits and restores the starter materials.</p><button class="btn danger" onclick="resetData()">Reset all data</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="itemModal"><form class="dialog" id="itemForm"><h2 id="itemModalTitle">Add item</h2><input type="hidden" name="id"><div class="form-grid">
+  <div class="field span2"><label>Item name</label><input class="input" name="name" required></div>
+  <div class="field"><label>Category</label><input class="input" name="category" required placeholder="Construction"></div>
+  <div class="field"><label>Status</label><select name="status"><option>Planned</option><option>Ordered</option><option>Bought</option></select></div>
+  <div class="field"><label>Quantity</label><input class="input" name="qty" type="number" step="0.01" value="1"></div>
+  <div class="field"><label>Unit</label><input class="input" name="unit" placeholder="sq ft, roll, piece"></div>
+  <div class="field"><label>Budget unit price</label><input class="input" name="budgetPrice" type="number" step="0.01"></div>
+  <div class="field"><label>Actual unit price</label><input class="input" name="actualPrice" type="number" step="0.01"></div>
+  <div class="field"><label>Supplier / Store</label><input class="input" name="supplier"></div>
+  <div class="field"><label>Purchase date</label><input class="input" name="date" type="date"></div>
+  <div class="field span2"><label>Product link</label><input class="input" name="url" type="url" placeholder="https://"></div>
+  <div class="field span2"><label>Notes / specification</label><textarea name="notes" rows="3"></textarea></div>
+</div><div class="actions" style="justify-content:flex-end;margin-top:18px"><button type="button" class="btn" onclick="closeModal('itemModal')">Cancel</button><button class="btn primary">Save item</button></div></form></div>
+
+<div class="modal" id="txnModal"><form class="dialog" id="txnForm"><h2 id="txnModalTitle">Add transaction</h2><input type="hidden" name="id"><div class="form-grid">
+  <div class="field"><label>Type</label><select name="type"><option>Expense</option><option>Income</option></select></div>
+  <div class="field"><label>Date</label><input class="input" name="date" type="date" required></div>
+  <div class="field span2"><label>Description</label><input class="input" name="description" required></div>
+  <div class="field"><label>Category</label><input class="input" name="category" required placeholder="Construction, Sales, Labour"></div>
+  <div class="field"><label>Amount</label><input class="input" name="amount" type="number" min="0" step="0.01" required></div>
+  <div class="field"><label>Payment method</label><select name="method"><option>Cash</option><option>Bank Transfer</option><option>UPI</option><option>Card</option><option>Loan</option><option>Other</option></select></div>
+  <div class="field"><label>Reference</label><input class="input" name="reference" placeholder="Invoice / receipt number"></div>
+  <div class="field span2"><label>Notes</label><textarea name="notes" rows="3"></textarea></div>
+</div><div class="actions" style="justify-content:flex-end;margin-top:18px"><button type="button" class="btn" onclick="closeModal('txnModal')">Cancel</button><button class="btn primary">Save transaction</button></div></form></div>
+
+<div class="toast" id="toast"></div>
+<script type="module">
+import { supabase } from '/src/lib/supabase.js'
+
+window.supabase = supabase
+window.dispatchEvent(new Event('supabase-ready'))
+</script>
+<script>
+const KEY='mushroom-farm-manager-v1';
+const SYNC_KEY='mushroom-farm-sync-v1';
+const SESSION_KEY='mushroom-farm-session-v1';
+let installPrompt=null;
+const SYNC_SQL=`create table if not exists public.farm_records (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  entity_type text not null,
+  record_id text not null,
+  data jsonb not null default '{}'::jsonb,
+  deleted boolean not null default false,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, entity_type, record_id)
+);
+
+alter table public.farm_records enable row level security;
+
+drop policy if exists "Users can read their farm records" on public.farm_records;
+create policy "Users can read their farm records"
+on public.farm_records for select
+using ((select auth.uid()) = user_id);
+
+drop policy if exists "Users can insert their farm records" on public.farm_records;
+create policy "Users can insert their farm records"
+on public.farm_records for insert
+with check ((select auth.uid()) = user_id);
+
+drop policy if exists "Users can update their farm records" on public.farm_records;
+create policy "Users can update their farm records"
+on public.farm_records for update
+using ((select auth.uid()) = user_id)
+with check ((select auth.uid()) = user_id);
+
+create or replace function public.sync_farm_records(records jsonb)
+returns void
+language plpgsql
+security invoker
+set search_path = public
+as $$
+declare
+  record jsonb;
+begin
+  for record in select * from jsonb_array_elements(records)
+  loop
+    if (record->>'user_id')::uuid <> auth.uid() then
+      raise exception 'Not authorized';
+    end if;
+
+    insert into public.farm_records (
+      user_id, entity_type, record_id, data, deleted, updated_at
+    ) values (
+      (record->>'user_id')::uuid,
+      record->>'entity_type',
+      record->>'record_id',
+      coalesce(record->'data', '{}'::jsonb),
+      coalesce((record->>'deleted')::boolean, false),
+      (record->>'updated_at')::timestamptz
+    )
+    on conflict (user_id, entity_type, record_id)
+    do update set
+      data = excluded.data,
+      deleted = excluded.deleted,
+      updated_at = excluded.updated_at
+    where excluded.updated_at > public.farm_records.updated_at;
+  end loop;
+end;
+$$;`;
+const stores=[
+ {name:'Amazon India',url:q=>`https://www.amazon.in/s?k=${encodeURIComponent(q)}`},
+ {name:'Flipkart',url:q=>`https://www.flipkart.com/search?q=${encodeURIComponent(q)}`},
+ {name:'IndiaMART',url:q=>`https://dir.indiamart.com/search.mp?ss=${encodeURIComponent(q)}`},
+ {name:'Moglix',url:q=>`https://www.moglix.com/search?query=${encodeURIComponent(q)}`},
+ {name:'IndustryBuying',url:q=>`https://www.industrybuying.com/search/?q=${encodeURIComponent(q)}`},
+ {name:'Google Shopping',url:q=>`https://www.google.com/search?tbm=shop&q=${encodeURIComponent(q)}`}
+];
+const starterItems=[
+ ['Treated bamboo poles','Construction',100,'piece',52.5,'Main frame; 10 ft poles'],
+ ['Cement','Construction',10,'bag',450,'Post anchoring'],
+ ['Sand and aggregate','Construction',1,'lot',2500,'For post foundations'],
+ ['8mm double-sided bubble-foil insulation','Insulation',1750,'sq ft',11.5,'Reinforced double foil, double bubble'],
+ ['75% shade net','Covering',1750,'sq ft',5,'Roof and wall shade'],
+ ['UV greenhouse polyfilm','Covering',2000,'sq ft',7.5,'Outer weather layer'],
+ ['White silpaulin inner lining','Covering',2000,'sq ft',8.5,'Washable inner lining'],
+ ['Floor tarpaulin','Flooring',800,'sq ft',8.5,'Heavy-duty waterproof sheet'],
+ ['Insect mesh','Ventilation',150,'sq ft',10,'Fine nylon mesh'],
+ ['12-inch exhaust fans','Ventilation',2,'piece',2600,'Mesh-covered outlets'],
+ ['Fogger / misting kit','Humidity',1,'kit',7500,'Full-room coverage'],
+ ['750–1,000 L water tank and fittings','Water',1,'set',7750,'Tank, PVC and valves'],
+ ['Bamboo racks and tying materials','Racking',1,'lot',11500,'Two 70 ft, two-tier rows'],
+ ['Aluminium foil tape','Insulation',4,'roll',400,'Seal all insulation joints'],
+ ['PVC drainage channel','Drainage',70,'ft',65,'Side drain and fittings'],
+ ['Waterproof LED lights','Electrical',6,'piece',550,'Grow-room lighting'],
+ ['Electrical wiring, MCB and labour','Electrical',1,'lot',8500,'Water-resistant installation'],
+ ['Cleaning and sanitisation starter stock','Operations',1,'lot',2500,'Lime, disinfectant, sprayer and PPE']
+].map((x,i)=>({id:`starter-${i}`,name:x[0],category:x[1],qty:x[2],unit:x[3],budgetPrice:x[4],actualPrice:0,supplier:'',status:'Planned',date:'',url:'',notes:x[5]}));
+ const PLAN_VERSION=3;
+const starterPlan=[
+ {id:'exec-overview',title:'Execution roadmap — 18 months',body:`PHASE 0 — Weeks 1–4: Training, registrations, subsidies, clean inoculation area and cash planning.
+PHASE 1 — Weeks 5–12: Build and commission the insulated 70 × 10 ft grow room.
+PHASE 2 — Months 3–5: Complete the first 400-bag oyster run and record results.
+PHASE 3 — Months 5–7: Scale oyster production and introduce the first shiitake blocks.
+PHASE 4 — Months 8–11: Shift toward higher-value shiitake while keeping oyster cash flow.
+PHASE 5 — Months 10–12: Set up packaging, cold chain and fixed delivery routes.
+PHASE 6 — Month 12 onward: Supply hotels and restaurants; add Delhi only after local consistency.
+
+Working rule: complete each phase’s checks before committing money to the next phase.`},
+ {id:'exec-phase-0',title:'Phase 0 — Pre-launch, weeks 1–4',body:`STEP 1 — Attend the HP 10-day practical mushroom training
+• Visit the Sirmaur Horticulture office with Aadhaar, land documents and photographs.
+• Register for the next available batch and ask for Mushroom Grower Registration.
+• Complete all attendance requirements and retain several copies of the certificate.
+
+STEP 2 — Apply for schemes in parallel
+• Prepare a DPR with farm description, component costs, financing and revenue projections.
+• Check Himachal Khumb Vikas Yojna, PMEGP, NHM/MIDH and Development of Mushroom Services.
+• Ask whether the current RKVY plan or JICA SHG/CIG project covers the proposed activity.
+• Obtain written eligibility and sanction before purchasing a subsidised component.
+• Do not claim two subsidies against the same invoice or cost line.
+
+STEP 3 — Complete registrations
+• Apply for FSSAI Basic Registration through FoSCoS.
+• Obtain the local trade licence where required.
+• Register the farm/grower with the relevant HP department.
+• Open a separate farm bank account and keep every receipt.
+
+STEP 4 — Build a clean inoculation area
+• Keep inoculation separate from the fruiting room.
+• Build a 60 × 60 × 60 cm still-air box.
+• Keep gloves, 70% isopropyl alcohol, clean trays and labels in a dedicated kit.
+• Disinfect before use and never work over open substrate while talking or coughing.
+
+STEP 5 — Protect cash flow
+• Construction target: ₹1.50–1.87 lakh including labour, before contingency.
+• Keep a separate ₹40,000–50,000 operating float.
+• Map construction, spawn, substrate, utilities and labour month by month.
+• Record every expense from day one for management and subsidy inspections.`},
+ {id:'exec-phase-1',title:'Phase 1 — Construction and setup, weeks 5–12',body:`STEP 1 — Finalise quantities and quotations
+• Obtain at least three comparable quotations for major materials.
+• Confirm GST, freight, roll coverage, thickness, GSM and warranty in writing.
+• Main specification: 8mm double-sided aluminium bubble-foil insulation, approximately 1,750 sq ft.
+• Mid-range insulation allowance: ₹10–13/sq ft, or ₹17,500–22,750 before freight/GST.
+
+STEP 2 — Prepare and frame the site
+• Level and compact the 70 × 10 ft site; confirm all corners are square.
+• Treat buried bamboo ends by charring or borax treatment.
+• Set posts approximately every 5 ft in cement and allow curing before loading.
+• Cross-brace the frame and provide a sloped roof for monsoon runoff.
+
+STEP 3 — Install wall and roof layers
+• Outside-to-inside order: 75% shade net → UV polyfilm → 8mm bubble foil → air gap → white silpaulin.
+• Do not compress the bubble layer.
+• Overlap insulation seams by 5–6 cm and seal with aluminium foil tape.
+• Prioritise complete roof coverage and seal penetrations around fans and wires.
+
+STEP 4 — Complete internal works
+• Lay heavy floor tarpaulin over compacted earth with overlapped, sealed joints.
+• Install a 70 ft side drain with fall toward the outlet; test with water.
+• Fit two exhaust fans and mesh-covered air inlets.
+• Install fogging/misting, the water tank, PVC lines and valves.
+• Build two long, two-tier bamboo rack rows and secure with GI wire/clamps.
+• Install waterproof lights, conduit, MCB, switches and sockets.
+
+STEP 5 — Commission before production
+• Run fans, lights, fogger and drainage continuously for 24 hours.
+• Confirm humidity can reach 85–90% without uncontrolled dripping.
+• Check the door seal, insect mesh, leaks and electrical safety.
+• Clean and disinfect the empty room before substrate enters.
+
+BUDGET CONTROL
+• Materials estimate: ₹1.30–1.57 lakh.
+• Labour allowance: ₹20,000–30,000.
+• Add 10% contingency and update actual costs in Items & Purchases.`},
+ {id:'exec-phase-2',title:'Phase 2 — First oyster run, months 3–5',body:`STEP 1 — Secure substrate and spawn
+• Source about 200 kg of clean, dry wheat straw with no mould smell.
+• Order about 30 kg of certified oyster spawn at least one week ahead.
+• Establish a primary and backup spawn supplier.
+• Use spawn promptly and reject damaged, overheated or contaminated packs.
+
+STEP 2 — Pasteurise substrate
+• Work outside the grow room using a 200 L drum.
+• Process manageable batches and hold 65–70°C for 60 minutes.
+• Drain onto a clean tarpaulin, never bare soil.
+• Cool substrate below 30°C before inoculation.
+• Discard any sour or fermented-smelling batch.
+
+STEP 3 — Inoculate and bag
+• Work in the cleaned still-air box with clean hands and gloves.
+• Prepare approximately 400 bags at about 3 kg wet weight each.
+• Use roughly 75 g spawn per bag and distribute it evenly in layers.
+• Tie, make small air holes, label every batch and place in the warm incubation zone.
+
+STEP 4 — Incubate and fruit
+• Hold incubation near 22–25°C in low light.
+• Inspect daily and remove green, black or pink contamination immediately.
+• Log contamination percentage by batch; first-run target is below 15%.
+• After colonisation, move bags to fruiting, cut openings and maintain 85–90% humidity.
+• Mist up to three times daily as conditions require and ventilate regularly.
+
+STEP 5 — Harvest and review
+• Twist whole clusters cleanly from the base.
+• Weigh output by batch and record each flush separately.
+• Rest bags between flushes and remove spent bags promptly.
+• Review yield, contamination, labour hours and selling price before scaling.`},
+ {id:'exec-phase-3',title:'Phase 3 — Scale oyster and introduce shiitake, months 5–7',body:`STEP 1 — Lock the spawn supply chain
+• Arrange fortnightly standing orders and retain a backup supplier.
+• Keep a two-week spawn buffer at 4–8°C in a dedicated refrigerator.
+• Never allow production to depend on one late delivery.
+
+STEP 2 — Add sterilisation capability
+• Procure a suitable autoclave or professionally built pressure vessel.
+• Locate it outside the grow room under a weatherproof shelter.
+• Verify gauges before use.
+• Shiitake substrate requires full sterilisation around 121°C / 15 PSI for about 2.5 hours.
+
+STEP 3 — Prepare the first 50 shiitake blocks
+• Suggested dry mix: hardwood sawdust 78%, wheat bran 20%, gypsum 1%, adjusted to about 60% moisture.
+• Fill autoclave-grade filter bags to about 1.2 kg each.
+• Sterilise fully, cool completely, then inoculate in the clean area.
+• Use an appropriate shiitake spawn rate and seal immediately.
+• Incubate 45–70 days and discard contaminated blocks promptly.
+
+STEP 4 — Add a dehydrator
+• Buy a reliable five-tray food dehydrator.
+• Move unsold fresh mushrooms to drying before spoilage.
+• Slice shiitake evenly and dry around 50°C until properly brittle/dry.
+• Pack in sealed, labelled bags and follow food-labelling requirements.
+
+STEP 5 — Stagger oyster batches
+• Work toward 450 active bags.
+• Inoculate about 100 replacement bags every 14 days.
+• Retire spent bags as new batches enter.
+• Target contamination below 8% by month 7 and investigate any worsening trend.`},
+ {id:'exec-phase-4',title:'Phase 4 — Shiitake-dominant shift, months 8–11',body:`STEP 1 — Cold shock the first mature shiitake blocks
+• Use only fully colonised, browned blocks.
+• Submerge in clean cold water around 5–10°C for 12–16 hours.
+• Drain and move to fruiting conditions around 10–18°C and 85% humidity.
+• Harvest while caps remain premium and dome-shaped.
+• Rest blocks 7–10 days before the next soaking/flush.
+
+STEP 2 — Ramp to 150 blocks
+• Add approximately 50 new blocks per month in rolling batches.
+• Keep about 250 oyster bags operating for regular cash flow.
+• Track grams harvested per block and performance by spawn batch.
+• Target shiitake contamination below 15%.
+
+STEP 3 — Deep clean every 14 days
+• Remove all spent and contaminated material first.
+• Apply lime solution to walls, racks, ceiling and floor.
+• Scrub racks, rinse the floor and drain completely.
+• Ventilate the empty room before returning production.
+• Compare pre-clean and post-clean contamination trends.`},
+ {id:'exec-phase-5',title:'Phase 5 — Packaging and logistics, months 10–12',body:`STEP 1 — Create packaging and labels
+• Oyster: 250 g and 500 g ventilated packs.
+• Shiitake: premium 200 g and 500 g clamshell or suitable food-grade packs.
+• Labels should include farm name, product, net weight, harvest/packing date, contact and FSSAI details.
+• Use larger food-grade packs inside insulated boxes for hotel orders.
+
+STEP 2 — Build the cold chain
+• Procure three insulated boxes and reusable gel packs.
+• Test cold retention for at least 12 hours.
+• Harvest and pre-cool before dispatch.
+• Pack oyster loosely to prevent bruising.
+• Confirm the receiver before sending any long-distance consignment.
+
+STEP 3 — Fix delivery routines
+• Local Sirmaur/Nahan target: Tuesday and Friday mornings.
+• Shimla target: Monday delivery after Sunday harvest.
+• Delhi target: only after reliable packaging and local supply; use a confirmed morning receiver.
+• Confirm orders in writing and produce a reasonable buffer.
+• Give buyers advance warning when supply will be short.`},
+ {id:'exec-buyers',title:'Phase 6 — Buyers and sales, month 9 onward',body:`STEP 1 — Start outreach 6–8 weeks before reliable supply
+• Build a list of local hotels, resorts, restaurants, cafés and specialty stores.
+• Contact the chef, F&B manager or purchase manager directly.
+• Offer a small complimentary sample with harvest details.
+
+STEP 2 — Secure local proof first
+• Prioritise Nahan, Paonta Sahib, Sirmaur and Shimla buyers.
+• Agree in writing on species, pack size, weekly quantity, price, delivery day and payment period.
+• Avoid allowing one buyer to exceed 40% of expected revenue.
+
+STEP 3 — Approach premium and Delhi accounts
+• Keep FSSAI, farm details, product photographs and supply history ready.
+• Offer fresh shiitake only when the cold chain is proven.
+• Use dried products for customers where fresh delivery is impractical.
+
+STEP 4 — Manage each account
+• Confirm the next order several days before harvest.
+• Record samples, quotations, invoices, payment due dates and complaints.
+• Maintain at least three active buyers and a backup outlet for surplus.
+• Dehydrate safe unsold stock before it loses saleable quality.`},
+ {id:'exec-daily-ops',title:'Daily, weekly and 14-day operating checklist',body:`MORNING — 7–8 AM
+□ Record temperature in each zone.
+□ Record humidity; target approximately 85–90% during fruiting.
+□ Inspect every bag/block and remove contamination immediately.
+□ Run ventilation and complete the first misting.
+□ Check tank level, fogger nozzles and harvest readiness.
+
+MIDDAY — 12–1 PM
+□ Complete the second misting if needed.
+□ Harvest ready clusters; weigh and log by species/batch.
+□ Move harvest to a clean, cool packing area.
+□ Remove spent bags and repair any insect-mesh gap.
+
+EVENING — 5–6 PM
+□ Complete the third misting if conditions require it.
+□ Ventilate and record total daily harvest.
+□ Prepare next-day consignments and pre-cool where appropriate.
+□ Record odours, abnormal pins, equipment issues and actions taken.
+□ Adjust vents/heating safely for overnight conditions.
+
+WEEKLY
+□ Calculate contamination and yield by batch.
+□ Check spawn stock and place the next order.
+□ Inspect electrical, fans, foggers, water lines and leaks.
+□ Confirm next week’s buyer quantities and delivery schedule.
+□ Reconcile cash, invoices and unpaid customer balances.
+
+EVERY 14 DAYS
+□ Remove spent material and isolate active production.
+□ Deep-clean walls, ceiling, racks and floor.
+□ Rinse, drain and ventilate before re-entry.
+□ Record the clean and compare contamination trends.
+
+WORKER RULES
+□ Use dedicated footwear and clean hands.
+□ No food, drink or smoking in production areas.
+□ Remove contamination directly outside without crossing clean zones.
+□ Log every harvest, loss and unusual observation.`},
+ {id:'exec-seasonal',title:'Seasonal production calendar',body:`JAN–FEB
+• Peak shiitake window; continue staggered oyster batches.
+• Cold-shock mature blocks and push fresh buyer sales.
+
+MAR–APR
+• Inoculate a shiitake batch for early-summer production.
+• Continue oyster cycles and prepare summer shade/ventilation.
+
+MAY–JUN
+• Deploy shade control and monitor heat stress.
+• Inoculate another shiitake batch; divert surplus to drying.
+
+JUL–AUG
+• Lower-revenue maintenance period.
+• Deep-clean, repair structure/equipment and bulk-order inputs.
+• Inoculate shiitake in August for October fruiting.
+
+SEP
+• Prepare packaging, buyers and logistics for the winter peak.
+• Adjust shade and ventilation as temperatures fall.
+
+OCT–DEC
+• Main shiitake and hotel-demand season.
+• Maintain delivery discipline and cold-chain records.
+• Inoculate a November shiitake batch for later winter output.
+• Dehydrate suitable surplus and review annual performance.
+
+PLANNING RULE
+• Work backward 45–70 days from desired shiitake harvest.
+• Stagger oyster inoculation every two weeks for smoother cash flow.`},
+ {id:'exec-subsidies',title:'Subsidy and assistance application plan',body:`1. Himachal Khumb Vikas Yojna — component-wise support; confirm current norms and sanction.
+2. RKVY Mushroom Unit — available only through approved annual/project components.
+3. Ten-day practical training — published assistance ₹50.75/day; confirm current batch/payment.
+4. Mushroom Grower Registration — free departmental registration.
+5. Interest subsidy — loan-linked and notification-dependent; obtain written bank eligibility.
+6. JICA SHG/CIG support — group/project-area specific.
+7. Pasteurised compost — published 25% standard and 50% priority-category support, subject to rules and supply.
+8. PMEGP — margin-money subsidy generally 15–35% depending on location/category and bank approval.
+9. NHM/MIDH — assistance against current approved cost norms and component ceilings.
+10. Development of Mushroom Services — training, registration, compost and technical services.
+11. Hops Production Inputs — separate crop-specific benefit, not for mushroom construction.
+
+APPLICATION STEPS
+• Confirm the scheme is open and the exact component is eligible.
+• Obtain the current guideline, cost norm, beneficiary contribution and ceiling.
+• Prepare DPR, quotations, land/identity/bank documents and training proof.
+• Apply and wait for written pre-sanction where required.
+• Purchase only approved specifications through permitted channels.
+• Retain invoice, payment proof, photographs and inspection records.
+• Track application, sanction, claim and disbursement separately in cash flow.
+• Never budget an unapproved subsidy as available cash.`},
+ {id:'exec-risks',title:'Risk register and response plan',body:`HIGH — Full-batch contamination
+Prevention: verify substrate temperature and sterilisation; use the clean inoculation area.
+Response: remove affected material immediately, deep-clean and identify the process failure before restarting.
+
+HIGH — Anchor buyer loss
+Prevention: maintain at least three buyers and cap dependency on one account.
+Response: contact backup buyers and dehydrate suitable surplus.
+
+HIGH — Monsoon structural damage
+Prevention: roof pitch, tight coverings, cross-bracing and a pre-monsoon inspection.
+Response: protect remaining stock, document damage and install a temporary weatherproof cover.
+
+MEDIUM — Spawn supplier failure
+Prevention: primary and backup suppliers plus a two-week refrigerated buffer.
+Response: activate backup supply and revise inoculation dates immediately.
+
+MEDIUM — Transit spoilage
+Prevention: pre-cooling, tested insulated boxes, gel packs and confirmed receivers.
+Response: document the event, protect the buyer relationship and redirect remaining safe stock.
+
+MEDIUM — Cash-flow gap
+Prevention: maintain the operating float and separate construction funds.
+Response: pause nonessential buying, collect receivables and prioritise reliable local sales.
+
+LOW — Electricity outage
+Prevention: manual misting plan and safe backup heat/water arrangements.
+Response: protect humidity/temperature manually and monitor crops closely.
+
+LOW — Missing licence or registration
+Prevention: apply during pre-launch and keep digital copies.
+ Response: show application acknowledgement where accepted and complete the process urgently.`},
+ {id:'exec-waste-management',title:'Waste management and circular-use plan',body:`OBJECTIVE
+Keep contaminated material away from production, prevent odour and pests, and turn safe spent substrate into a useful by-product.
+
+DAILY HANDLING
+- Separate waste into contaminated substrate, clean spent substrate, packaging/plastic and general waste.
+- Put contaminated bags directly into closed, labelled containers outside the clean production route.
+- Never open or shake contaminated bags inside the grow room.
+- Record the batch, approximate weight and likely cause before disposal.
+
+SAFE SPENT SUBSTRATE
+- Create a covered curing area downhill and away from the grow room, water source and packing area.
+- Break up only clean spent oyster substrate; mix with dry carbon material where needed and cure before farm use or sale.
+- Test a small batch on non-sensitive plants before offering it as a soil conditioner.
+- Do not describe it as a guaranteed fertiliser without appropriate testing, labelling and regulatory confirmation.
+
+CONTAMINATED MATERIAL
+- Isolate it immediately and follow locally accepted disposal or controlled composting guidance.
+- Do not sell contaminated substrate, feed it to animals or spread it near cultivation areas.
+- Clean tools, footwear and the removal route after handling.
+
+MONTHLY CONTROL
+- Record kilograms of substrate purchased, mushrooms harvested, spent substrate reused/sold and waste discarded.
+- Investigate any rise in contaminated waste; the target is prevention rather than disposal.
+- Confirm plastic-bag collection or recycling with an authorised local handler.`},
+ {id:'exec-insurance',title:'Insurance and business-protection plan',body:`COVER TO DISCUSS WITH AN INSURER
+- Structure and contents: grow room, lining, racks, foggers, fans, wiring, tools and packing equipment.
+- Fire, storm, landslide, water damage and theft according to local risk and policy wording.
+- Machinery or equipment breakdown for refrigeration, pumps, foggers and sterilisation equipment.
+- Stock deterioration where available; confirm whether mushrooms, spawn and blocks are actually covered.
+- Public liability for visitors, buyers, training participants and products supplied.
+- Worker accident cover and legally required employee protection when labour is engaged.
+- Goods-in-transit cover once regular hotel or long-distance deliveries begin.
+
+BEFORE BUYING A POLICY
+- Give the insurer an accurate description of mushroom cultivation, heating/sterilisation and cold storage.
+- Ask for exclusions, excess/deductible, waiting periods and claim-document requirements in writing.
+- Compare at least three policies on coverage, not premium alone.
+- Confirm whether a bamboo/polyfilm structure qualifies and whether monsoon or landslide damage is excluded.
+
+CLAIM-READY RECORDS
+- Keep dated photographs, invoices, serial numbers, stock records and maintenance logs in cloud storage.
+- Update the declared value after major equipment purchases.
+- Photograph damage before cleanup where safe, notify the insurer promptly and preserve affected records.
+
+DECISION GATE
+Buy cover before stocking the room at commercial scale; review it annually and whenever capacity changes materially.`},
+ {id:'exec-worker-safety',title:'Worker safety and emergency plan',body:`CORE RULES
+- Provide an induction before any worker enters production or uses equipment.
+- Keep dedicated footwear, washable gloves, aprons, eye protection and suitable masks available.
+- Never allow untrained workers to operate a pressure vessel, electrical panel or chemical sprayer.
+- Keep children and visitors away from sterilisation, chemical storage and slippery work areas.
+
+MAIN HAZARDS AND CONTROLS
+- Pressure/steam: use rated equipment, functioning gauges and written operating steps; never improvise a pressure vessel.
+- Electricity/water: use earthing, MCB/RCD protection, waterproof fittings and dry hands; electrician inspection is required.
+- Chemicals: retain labels and safety instructions, never mix incompatible cleaners, and provide ventilation.
+- Slips/lifting: maintain drainage, clear walkways, use stable steps and train workers to lift wet substrate safely.
+- Spores/dust: ventilate harvesting and bag-opening areas and use suitable respiratory protection when exposure is high.
+- Fire: place appropriate extinguishers near exits and electrical/sterilisation zones without blocking escape routes.
+
+EMERGENCY READINESS
+- Display emergency contacts, farm address and nearest clinic.
+- Keep a stocked first-aid kit, clean eyewash water and two unobstructed exit paths where feasible.
+- Mark electrical shutoff, water shutoff and fire-extinguisher locations.
+- Record every injury, near miss, equipment failure and corrective action.
+
+MONTHLY CHECK
+Run a short safety inspection and emergency drill. Stop work immediately if pressure equipment, wiring, structure or exits are unsafe.`},
+ {id:'exec-opportunities-products',title:'Additional opportunities - products and subscriptions',body:`1. WEEKLY MUSHROOM SUBSCRIPTIONS
+Offer households, cafes or small restaurants a fixed weekly box with a predictable quantity and collection/delivery day.
+Start: recruit 10 local subscribers for a four-week prepaid trial.
+Track: renewal rate, delivery cost per box, missed deliveries and unsold balance.
+Do not scale until weekly production can meet commitments with a 10-15% buffer.
+
+2. CHEF SAMPLE AND SEASONAL BOXES
+Create a small premium box containing current varieties, harvest date, storage guidance, price list and ordering contact.
+Start: deliver to a tightly selected list of chefs and follow up within 48 hours.
+Revenue path: convert samples into standing weekly orders or limited seasonal menus.
+Control: cap free sampling, record conversion rate and avoid promising species or volume not yet proven.
+
+3. DRIED MUSHROOMS, POWDER AND SOUP MIXES
+Use suitable surplus to create shelf-stable products with higher value per kilogram and wider delivery reach.
+Start: begin with one simple dried mushroom product; validate drying consistency, final weight, packaging and shelf life.
+Add powder or mixes only after confirming food-processing, ingredient, allergen, nutrition and labelling requirements.
+Track: fresh-to-dry conversion, electricity, packaging, testing, breakage, retailer margin and stock age.
+Do not use poor-quality or spoiled mushrooms for processing; value addition does not make unsafe stock acceptable.`},
+ {id:'exec-opportunities-services',title:'Additional opportunities - services and shared assets',body:`4. PRACTICAL TRAINING AND FARM VISITS
+Offer paid beginner sessions only after the farm has repeatable results and documented procedures.
+Start: a small half-day workshop covering hygiene, bag preparation, fruiting and business records.
+Revenue path: attendance fees, starter kits and later technical support.
+Control: use safety rules, participant waivers where appropriate and honest yield expectations; do not present training as government certification.
+
+5. COLD-ROOM OR PRE-COOLING SERVICE
+Rent spare refrigerated capacity to nearby growers or food businesses during genuinely unused periods.
+Start: first calculate your own peak requirement, then trial one approved product category with written intake and collection rules.
+Track: electricity, cleaning, occupied crate-days, temperature records, rejected stock and liability.
+Do not mix incompatible, leaking or high-risk products with mushrooms. Dedicated capacity and insurance may be needed.
+
+6. CONTRACT GROWING
+Produce a defined species and quantity for a hotel, retailer or aggregator under a written purchase arrangement.
+Start: one buyer, one variety and a limited pilot batch.
+Contract points: quality grade, forecast, accepted variance, price, rejected stock, delivery, payment period and cancellation.
+Control: obtain a deposit or input commitment for highly customised production and retain alternative buyers where possible.`},
+ {id:'exec-opportunities-circular',title:'Additional opportunities - circular income and processing',body:`7. SPENT-SUBSTRATE SOIL CONDITIONER
+Convert clean, cured spent substrate into a low-cost garden or nursery product.
+Start: use it internally and run plant trials before selling.
+Revenue path: bulk supply to nurseries, landscapers and kitchen gardens or small returnable bags.
+Control: test moisture, odour, pH/salts and contamination risk; make conservative claims and price packaging/delivery properly.
+
+8. SOLAR-ASSISTED DRYING
+Use an enclosed food-safe solar dryer to reduce energy use, with an electric dehydrator available to finish the process reliably.
+Start: compare time, final moisture, colour and cleanliness against electric-only batches.
+Control: open sun-drying is unsuitable because of dust, insects and uneven drying. Do not pack until the product is consistently dry.
+Decision gate: invest only after dried-product demand is proven and monsoon operation has a dependable backup.
+
+9. STARTER KITS
+Sell a simple kit containing a ready-to-fruit block or bag, instructions and support to households, schools or tourists.
+Start: test 20 kits locally and record fruiting success after leaving the farm.
+Track: support time, replacement rate, packaging damage and customer success.
+Control: use robust species and clear temperature, humidity and hygiene instructions; avoid shipping during unsuitable weather.`},
+ {id:'exec-opportunities-growth',title:'Additional opportunities - production and market expansion',body:`10. SUMMER-SUITABLE SPECIES
+Trial warm-weather mushrooms to use capacity when cool-season shiitake output declines.
+Start: select one locally suitable species with verified spawn and run 20-30 bags in an isolated trial.
+Track: room temperature, contamination, yield, local buyer response and selling price.
+Do not add a species merely to fill the calendar; proceed only when its climate fit, process and market are all proven.
+
+11. DIRECT SALES ROUTES
+Combine pre-orders from households, cafes and shops into one fixed weekly route to improve margin and reduce wasted travel.
+Start: one neighbourhood or town, one order deadline and one delivery window.
+Use prepaid orders or a minimum basket value and reusable insulated crates where practical.
+Track: sales per kilometre, delivery time, failed deliveries and repeat customers.
+
+12. FARM COMPOST, INPUT AND PRODUCE PARTNERSHIPS
+Partner with nearby farms for clean straw/sawdust, substrate curing, vegetable-box cross-selling or shared transport.
+Start: map five possible partners and test one exchange or shared route with written quality expectations.
+Benefit: lower input and delivery costs while giving each partner access to more customers.
+Control: keep traceability, invoices and separate responsibilities; a partnership should not create dependence on one supplier.
+
+PRIORITY ORDER
+First test chef boxes and subscriptions, then one dried product. Add services, kits or shared assets only after core mushroom production is consistent and management time is available.`}
+];
+let syncConfig=loadSyncConfig(),syncSession=loadSyncSession(),syncTimer=null,syncBusy=false;
+let state=load();
+function fresh(){return{items:structuredClone(starterItems),transactions:[],openingBalance:0,quickNotes:'',farmName:'Sirmaur Hills Mushroom Farm',plan:structuredClone(starterPlan),planVersion:PLAN_VERSION,updatedAt:'1970-01-01T00:00:00.000Z',settingsUpdatedAt:'1970-01-01T00:00:00.000Z',tombstones:[],duplicateDismissed:[]}}
+function stampMissingRecords(saved){const fallback=saved.updatedAt||'1970-01-01T00:00:00.000Z';['items','transactions','plan'].forEach(key=>(saved[key]||[]).forEach(record=>{record.updatedAt=record.updatedAt||fallback}));if(!saved.settingsUpdatedAt||saved.settingsUpdatedAt==='1970-01-01T00:00:00.000Z')saved.settingsUpdatedAt=fallback;return saved}
+function load(){try{const saved=stampMissingRecords(Object.assign(fresh(),JSON.parse(localStorage.getItem(KEY)||'{}')));if((saved.planVersion||0)<PLAN_VERSION){const existing=new Set((saved.plan||[]).map(x=>x.id));saved.plan=[...(saved.plan||[]),...starterPlan.filter(x=>!existing.has(x.id)).map(x=>({...structuredClone(x),updatedAt:'1970-01-01T00:00:00.000Z'}))];saved.planVersion=PLAN_VERSION;localStorage.setItem(KEY,JSON.stringify(saved))}return saved}catch{return stampMissingRecords(fresh())}}
+function save(skipCloud=false){state.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state));renderAll();if(!skipCloud)queueCloudSync()}
+const rupee=n=>new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(n)||0);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function toast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+function updateInstallStatus(message,ready=false){const e=document.getElementById('installStatus');if(!e)return;e.classList.toggle('ready',ready);e.querySelector('span').textContent=message}
+async function installApp(){if(!installPrompt)return toast('Use your browser menu to add this app to the home screen');installPrompt.prompt();const result=await installPrompt.userChoice;installPrompt=null;document.getElementById('installAppButton').hidden=true;updateInstallStatus(result.outcome==='accepted'?'App installed and offline mode is ready':'Installation was dismissed',result.outcome==='accepted')}
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;document.getElementById('installAppButton').hidden=false;updateInstallStatus('Ready to install on this device',true)});
+window.addEventListener('appinstalled',()=>{installPrompt=null;document.getElementById('installAppButton').hidden=true;updateInstallStatus('Installed · offline mode ready',true)});
+function updateConnectionStatus(){if(!navigator.onLine)updateInstallStatus('Offline now · changes are saving on this device',true);else if(window.matchMedia('(display-mode: standalone)').matches)updateInstallStatus('Installed · online sync available',true)}
+function autoGrow(el){if(!el||el.classList.contains('codebox'))return;el.style.height='auto';el.style.height=`${el.scrollHeight+2}px`}
+function autoGrowAll(){requestAnimationFrame(()=>document.querySelectorAll('textarea:not(.codebox)').forEach(autoGrow))}
+function loadSyncConfig(){try{return JSON.parse(localStorage.getItem(SYNC_KEY)||'{}')}catch{return{}}}
+function loadSyncSession(){try{return JSON.parse(localStorage.getItem(SESSION_KEY)||'null')}catch{return null}}
+function cleanSyncUrl(v){return String(v||'').trim().replace(/\/+$/,'')}
+function syncHeaders(auth=true){const h={'apikey':syncConfig.anonKey,'Content-Type':'application/json'};if(auth&&syncSession?.access_token)h.Authorization=`Bearer ${syncSession.access_token}`;return h}
+function setSyncStatus(text,kind=''){const dot=document.getElementById('syncDot'),label=document.getElementById('syncStatus');if(!dot||!label)return;dot.className=`sync-dot ${kind}`;label.textContent=text}
+function readSyncFields(){syncConfig={url:cleanSyncUrl(document.getElementById('syncUrl').value),anonKey:document.getElementById('syncAnonKey').value.trim(),email:document.getElementById('syncEmail').value.trim()};localStorage.setItem(SYNC_KEY,JSON.stringify(syncConfig));return{...syncConfig,password:document.getElementById('syncPassword').value}}
+function syncReady(){return Boolean(syncConfig.url&&syncConfig.anonKey&&syncSession?.access_token&&syncSession?.user?.id)}
+async function cloudRequest(path,options={},retry=true){if(!syncConfig.url||!syncConfig.anonKey)throw new Error('Enter the Supabase project URL and public key first.');let res=await fetch(syncConfig.url+path,{...options,headers:{...syncHeaders(options.auth!==false),...(options.headers||{})}});if(res.status===401&&retry&&syncSession?.refresh_token){await refreshCloudSession();return cloudRequest(path,options,false)}const text=await res.text();let body=null;try{body=text?JSON.parse(text):null}catch{body=text}if(!res.ok)throw new Error(body?.msg||body?.message||body?.error_description||body?.hint||`Cloud request failed (${res.status})`);return body}
+async function refreshCloudSession(){const body=await cloudRequest('/auth/v1/token?grant_type=refresh_token',{method:'POST',auth:false,body:JSON.stringify({refresh_token:syncSession.refresh_token})},false);syncSession=body;localStorage.setItem(SESSION_KEY,JSON.stringify(syncSession));return body}
+async function cloudSignUp(){const c=readSyncFields();if(!c.email||!c.password)return toast('Enter email and password');setSyncStatus('Creating account…','busy');try{const body=await cloudRequest('/auth/v1/signup',{method:'POST',auth:false,body:JSON.stringify({email:c.email,password:c.password})});if(body.access_token){syncSession=body;localStorage.setItem(SESSION_KEY,JSON.stringify(body));setSyncStatus(`Signed in as ${body.user.email}`,'on');await cloudPull(false)}else setSyncStatus('Account created. Confirm the email, then sign in.','on');toast('Account created')}catch(e){setSyncStatus(e.message,'err');toast(e.message)}}
+async function cloudSignIn(){const c=readSyncFields();if(!c.email||!c.password)return toast('Enter email and password');setSyncStatus('Signing in…','busy');try{syncSession=await cloudRequest('/auth/v1/token?grant_type=password',{method:'POST',auth:false,body:JSON.stringify({email:c.email,password:c.password})});localStorage.setItem(SESSION_KEY,JSON.stringify(syncSession));document.getElementById('syncPassword').value='';setSyncStatus(`Signed in as ${syncSession.user.email}`,'on');await cloudPull(false)}catch(e){setSyncStatus(e.message,'err');toast(e.message)}}
+function cloudSignOut(){syncSession=null;localStorage.removeItem(SESSION_KEY);setSyncStatus('Signed out — local saving continues','');toast('Signed out')}
+function queueCloudSync(){if(!syncReady()||syncBusy)return;clearTimeout(syncTimer);syncTimer=setTimeout(()=>cloudPush(false),1200)}
+function collectionForType(type){return type==='item'?'items':type==='transaction'?'transactions':type==='plan'?'plan':null}
+function recordTime(record){return Date.parse(record?.updatedAt||0)||0}
+function makeCloudRecords(){const user=syncSession.user.id,rows=[];[['item','items'],['transaction','transactions'],['plan','plan']].forEach(([type,key])=>state[key].forEach(record=>rows.push({user_id:user,entity_type:type,record_id:record.id,data:record,deleted:false,updated_at:record.updatedAt||state.updatedAt})));rows.push({user_id:user,entity_type:'settings',record_id:'main',data:{openingBalance:state.openingBalance,quickNotes:state.quickNotes,farmName:state.farmName,duplicateDismissed:state.duplicateDismissed},deleted:false,updated_at:state.settingsUpdatedAt||state.updatedAt});state.tombstones.forEach(t=>rows.push({user_id:user,entity_type:t.type,record_id:t.id,data:{},deleted:true,updated_at:t.updatedAt}));return rows}
+function setTombstone(type,id,updatedAt=new Date().toISOString()){state.tombstones=state.tombstones.filter(t=>!(t.type===type&&t.id===id));state.tombstones.push({type,id,updatedAt})}
+function mergeCloudRows(rows){rows.forEach(row=>{if(row.entity_type==='settings'){if(recordTime({updatedAt:row.updated_at})>recordTime({updatedAt:state.settingsUpdatedAt})){Object.assign(state,row.data||{});state.settingsUpdatedAt=row.updated_at}return}const key=collectionForType(row.entity_type);if(!key)return;const local=state[key].find(x=>x.id===row.record_id),tomb=state.tombstones.find(t=>t.type===row.entity_type&&t.id===row.record_id),remoteTime=Date.parse(row.updated_at||0)||0,localTime=Math.max(recordTime(local),recordTime(tomb));if(remoteTime<=localTime)return;if(row.deleted){state[key]=state[key].filter(x=>x.id!==row.record_id);setTombstone(row.entity_type,row.record_id,row.updated_at)}else{state.tombstones=state.tombstones.filter(t=>!(t.type===row.entity_type&&t.id===row.record_id));const incoming={...(row.data||{}),id:row.record_id,updatedAt:row.updated_at};if(local)Object.assign(local,incoming);else state[key].push(incoming)}});state.updatedAt=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(state))}
+async function cloudPush(manual=false){readSyncFields();if(!syncReady()){if(manual)toast('Configure cloud sync and sign in first');return}syncBusy=true;setSyncStatus('Uploading record changes…','busy');try{await cloudRequest('/rest/v1/rpc/sync_farm_records',{method:'POST',body:JSON.stringify({records:makeCloudRecords()})});setSyncStatus(`Record sync complete · ${new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}`,'on');if(manual)toast('Cloud records updated')}catch(e){setSyncStatus(`Sync error: ${e.message}`,'err');if(manual)toast(e.message)}finally{syncBusy=false}}
+async function migrateLegacyCloudIfNeeded(rows){if(rows.length)return rows;try{const legacy=await cloudRequest(`/rest/v1/farm_data?user_id=eq.${encodeURIComponent(syncSession.user.id)}&select=data,updated_at`);if(!legacy?.length)return rows;const old=stampMissingRecords(Object.assign(fresh(),legacy[0].data||{}));state=old;state.settingsUpdatedAt=legacy[0].updated_at||old.updatedAt;localStorage.setItem(KEY,JSON.stringify(state));toast('Previous cloud data migrated to safer record sync');return[]}catch{return rows}}
+async function cloudPull(manual=false){readSyncFields();if(!syncReady()){if(manual)toast('Configure cloud sync and sign in first');return}if(syncBusy)return;syncBusy=true;setSyncStatus('Merging cloud records…','busy');try{let rows=await cloudRequest(`/rest/v1/farm_records?user_id=eq.${encodeURIComponent(syncSession.user.id)}&select=entity_type,record_id,data,deleted,updated_at`);rows=await migrateLegacyCloudIfNeeded(rows||[]);mergeCloudRows(rows);renderAll();syncBusy=false;await cloudPush(false);setSyncStatus(`Safely merged · ${new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}`,'on');if(manual)toast('Cloud records merged')}catch(e){setSyncStatus(`Sync error: ${e.message}`,'err');if(manual)toast(e.message);syncBusy=false}}
+function copySyncSql(){navigator.clipboard.writeText(SYNC_SQL).then(()=>toast('Setup SQL copied')).catch(()=>{document.getElementById('syncSql').select();document.execCommand('copy');toast('Setup SQL copied')})}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button,.view').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.getElementById(b.dataset.view).classList.add('on');window.scrollTo({top:0,behavior:'smooth'})});
+document.getElementById('todayText').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+function totals(){const budget=state.items.reduce((s,x)=>s+x.qty*x.budgetPrice,0),actual=state.items.reduce((s,x)=>s+x.qty*x.actualPrice,0),income=state.transactions.filter(x=>x.type==='Income').reduce((s,x)=>s+x.amount,0),expense=state.transactions.filter(x=>x.type==='Expense').reduce((s,x)=>s+x.amount,0);return{budget,actual,income,expense,balance:+state.openingBalance+income-expense}}
+function renderAll(){renderDashboard();renderItems();renderCash();renderPlan();renderDuplicateReview();document.getElementById('quickNotes').value=state.quickNotes||'';document.getElementById('openingBalance').value=state.openingBalance||0;document.getElementById('farmName').value=state.farmName||'';document.getElementById('syncUrl').value=syncConfig.url||'';document.getElementById('syncAnonKey').value=syncConfig.anonKey||'';document.getElementById('syncEmail').value=syncConfig.email||syncSession?.user?.email||'';document.getElementById('syncSql').value=SYNC_SQL;if(syncReady())setSyncStatus(`Signed in as ${syncSession.user.email}`,'on');else setSyncStatus(syncConfig.url?'Cloud configured — sign in to synchronize':'Local-only mode','');autoGrowAll()}
+function normalizedItemKey(item){return`${String(item.name||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}|${String(item.category||'').toLowerCase().trim()}`}
+function duplicatePairs(){const groups={};state.items.forEach(item=>{const key=normalizedItemKey(item);if(!key.startsWith('|'))(groups[key]??=[]).push(item)});return Object.values(groups).flatMap(group=>group.length<2?[]:group.slice(1).map(item=>[group[0],item])).filter(pair=>!state.duplicateDismissed.includes(pair.map(x=>x.id).sort().join('|')))}
+function renderDuplicateReview(){const pairs=duplicatePairs(),count=document.getElementById('duplicateCount'),box=document.getElementById('duplicateReview');if(!count||!box)return;count.textContent=`${pairs.length} to review`;box.innerHTML=pairs.length?pairs.map(([a,b])=>{const sig=[a.id,b.id].sort().join('|');return`<div style="padding:12px 0;border-top:1px solid var(--line)"><div class="row between"><div><b>${esc(a.name)}</b><div class="small">${a.qty} ${esc(a.unit)} · ${esc(a.supplier)||'No supplier'} versus ${b.qty} ${esc(b.unit)} · ${esc(b.supplier)||'No supplier'}</div></div><div class="actions"><button class="btn" onclick="dismissDuplicate('${sig}')">Keep both</button><button class="btn danger" onclick="deleteItem('${b.id}')">Delete second</button></div></div></div>`}).join(''):'<div class="small">No suspected duplicate items. Additions from different devices remain separate unless you choose to remove one.</div>'}
+function dismissDuplicate(signature){state.duplicateDismissed.push(signature);state.settingsUpdatedAt=new Date().toISOString();save();toast('Both records kept')}
+function renderDashboard(){const t=totals(),bought=state.items.filter(x=>x.status==='Bought').length,pct=state.items.length?Math.round(bought/state.items.length*100):0;
+ document.getElementById('stats').innerHTML=[['Planned budget',rupee(t.budget),'Current item estimates'],['Actual purchases',rupee(t.actual),`${bought} of ${state.items.length} items bought`],['Total income',rupee(t.income),'Recorded receipts'],['Cash available',rupee(t.balance),'Opening + income − expenses']].map(x=>`<div class="stat"><div class="label">${x[0]}</div><div class="value">${x[1]}</div><div class="hint">${x[2]}</div></div>`).join('');
+ document.getElementById('progressLabel').textContent=`${pct}% purchased`;document.getElementById('progressBar').style.width=pct+'%';
+ const items=state.items.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,5);document.getElementById('recentItems').innerHTML=items.length?items.map(x=>`<div class="row between" style="padding:9px 0;border-bottom:1px solid #eee"><div><b style="font-size:12px">${esc(x.name)}</b><div class="small">${esc(x.category)} · ${x.qty} ${esc(x.unit)}</div></div><span class="tag ${x.status.toLowerCase()}">${x.status}</span></div>`).join(''):'<div class="empty">No items yet</div>';
+ document.getElementById('cashSummary').innerHTML=`<div class="row between"><span>Opening balance</span><b>${rupee(state.openingBalance)}</b></div><div class="row between" style="margin-top:10px"><span>Income</span><b class="positive">+${rupee(t.income)}</b></div><div class="row between" style="margin-top:10px"><span>Expenses</span><b class="negative">−${rupee(t.expense)}</b></div><hr style="border:0;border-top:1px solid var(--line);margin:14px 0"><div class="row between"><b>Available cash</b><span class="value ${t.balance<0?'negative':'positive'}">${rupee(t.balance)}</span></div>`;
+ const tx=state.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);document.getElementById('recentTxns').innerHTML=tx.length?tx.map(x=>`<div class="row between" style="padding:8px 0;border-bottom:1px solid #eee"><div><b style="font-size:12px">${esc(x.description)}</b><div class="small">${x.date} · ${esc(x.category)}</div></div><b class="${x.type==='Income'?'income':'expense'}">${x.type==='Income'?'+':'−'}${rupee(x.amount)}</b></div>`).join(''):'<div class="empty">No transactions yet</div>'}
+function renderItems(){const q=document.getElementById('itemSearch').value.toLowerCase(),status=document.getElementById('itemStatus').value,cat=document.getElementById('itemCategory').value;const cats=[...new Set(state.items.map(x=>x.category))].sort();document.getElementById('itemCategory').innerHTML='<option value="">All categories</option>'+cats.map(x=>`<option ${x===cat?'selected':''}>${esc(x)}</option>`).join('');
+ const rows=state.items.filter(x=>(!q||[x.name,x.category,x.supplier,x.notes].join(' ').toLowerCase().includes(q))&&(!status||x.status===status)&&(!cat||x.category===cat));document.getElementById('itemRows').innerHTML=rows.length?rows.map(x=>`<tr><td><b>${esc(x.name)}</b>${x.notes?`<div class="small">${esc(x.notes)}</div>`:''}</td><td>${esc(x.category)}</td><td>${x.qty} ${esc(x.unit)}</td><td class="money">${rupee(x.qty*x.budgetPrice)}</td><td class="money">${x.actualPrice?rupee(x.qty*x.actualPrice):'—'}</td><td>${esc(x.supplier)||'—'}${x.url?` <a href="${esc(x.url)}" target="_blank">↗</a>`:''}</td><td><span class="tag ${x.status.toLowerCase()}">${x.status}</span></td><td><button class="icon-btn" onclick="openItem('${x.id}')">Edit</button><button class="icon-btn" onclick="recordItemExpense('${x.id}')">Expense</button><button class="icon-btn" onclick="deleteItem('${x.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="8" class="empty">No matching items</td></tr>'}
+function openItem(id=''){const f=document.getElementById('itemForm');f.reset();f.elements.id.value='';f.elements.qty.value=1;f.elements.status.value='Planned';if(id){const x=state.items.find(x=>x.id===id);Object.keys(x).forEach(k=>{if(f.elements[k])f.elements[k].value=x[k]});document.getElementById('itemModalTitle').textContent='Edit item'}else document.getElementById('itemModalTitle').textContent='Add item';document.getElementById('itemModal').classList.add('on')}
+document.getElementById('itemForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));d.qty=+d.qty||0;d.budgetPrice=+d.budgetPrice||0;d.actualPrice=+d.actualPrice||0;d.updatedAt=new Date().toISOString();if(d.id){Object.assign(state.items.find(x=>x.id===d.id),d)}else{d.id=uid();state.items.unshift(d)}closeModal('itemModal');save();toast('Item saved')};
+function deleteItem(id){if(confirm('Delete this item?')){state.items=state.items.filter(x=>x.id!==id);setTombstone('item',id);save();toast('Item deleted')}}
+function recordItemExpense(id){const x=state.items.find(x=>x.id===id),unit=x.actualPrice||x.budgetPrice,amount=x.qty*unit;if(!amount)return toast('Add an item price first');const f=document.getElementById('txnForm');f.reset();f.elements.id.value='';f.elements.type.value='Expense';f.elements.date.value=x.date||new Date().toISOString().slice(0,10);f.elements.description.value=x.name;f.elements.category.value=x.category;f.elements.amount.value=amount;f.elements.method.value='Bank Transfer';f.elements.reference.value=x.supplier||'';f.elements.notes.value=`${x.qty} ${x.unit} at ${rupee(unit)} each`;document.getElementById('txnModalTitle').textContent='Record purchase expense';document.getElementById('txnModal').classList.add('on')}
+function renderCash(){const t=totals();document.getElementById('cashStats').innerHTML=[['Opening cash',rupee(state.openingBalance),'Starting available funds'],['Income',rupee(t.income),'All recorded income'],['Expenses',rupee(t.expense),'All recorded spending'],['Closing cash',rupee(t.balance),t.balance<0?'Funding gap':'Available balance']].map(x=>`<div class="stat"><div class="label">${x[0]}</div><div class="value">${x[1]}</div><div class="hint">${x[2]}</div></div>`).join('');
+ const months={};state.transactions.forEach(x=>{const m=x.date.slice(0,7);months[m]=(months[m]||0)+(x.type==='Income'?x.amount:-x.amount)});const vals=Object.values(months),max=Math.max(1,...vals.map(Math.abs));document.getElementById('monthlyFlow').innerHTML=Object.keys(months).sort().reverse().slice(0,12).map(m=>`<div class="month-row"><span>${new Date(m+'-01').toLocaleDateString('en-IN',{month:'short',year:'numeric'})}</span><div class="bar ${months[m]<0?'neg':''}"><i style="width:${Math.abs(months[m])/max*100}%"></i></div><b class="${months[m]<0?'negative':'positive'}">${rupee(months[m])}</b></div>`).join('')||'<div class="empty">Add transactions to see monthly flow</div>';
+ document.getElementById('managementSummary').innerHTML=`<div class="row between"><span>Cash after recorded activity</span><b>${rupee(t.balance)}</b></div><div class="row between" style="margin-top:10px"><span>Unpurchased planned budget</span><b>${rupee(state.items.filter(x=>x.status!=='Bought').reduce((s,x)=>s+x.qty*x.budgetPrice,0))}</b></div><div class="note" style="margin-top:14px">${t.balance<0?'Recorded spending exceeds available cash. Review unpaid items or add confirmed funding.':'Positive recorded cash balance. Keep operating float separate from construction funds.'}</div>`;
+ const q=document.getElementById('txnSearch').value.toLowerCase(),type=document.getElementById('txnType').value,rows=state.transactions.filter(x=>(!q||[x.description,x.category,x.method,x.reference].join(' ').toLowerCase().includes(q))&&(!type||x.type===type)).sort((a,b)=>b.date.localeCompare(a.date));document.getElementById('txnRows').innerHTML=rows.length?rows.map(x=>`<tr><td>${x.date}</td><td><b>${esc(x.description)}</b>${x.notes?`<div class="small">${esc(x.notes)}</div>`:''}</td><td>${esc(x.category)}</td><td><span class="${x.type.toLowerCase()}">${x.type}</span></td><td>${esc(x.method)}</td><td class="money ${x.type.toLowerCase()}">${x.type==='Income'?'+':'−'}${rupee(x.amount)}</td><td><button class="icon-btn" onclick="openTxn('${x.id}')">Edit</button><button class="icon-btn" onclick="deleteTxn('${x.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="7" class="empty">No matching transactions</td></tr>'}
+function openTxn(id=''){const f=document.getElementById('txnForm');f.reset();f.elements.id.value='';f.elements.date.value=new Date().toISOString().slice(0,10);if(id){const x=state.transactions.find(x=>x.id===id);Object.keys(x).forEach(k=>{if(f.elements[k])f.elements[k].value=x[k]});document.getElementById('txnModalTitle').textContent='Edit transaction'}else document.getElementById('txnModalTitle').textContent='Add transaction';document.getElementById('txnModal').classList.add('on')}
+document.getElementById('txnForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));d.amount=+d.amount||0;d.updatedAt=new Date().toISOString();if(d.id){Object.assign(state.transactions.find(x=>x.id===d.id),d)}else{d.id=uid();state.transactions.unshift(d)}closeModal('txnModal');save();toast('Transaction saved')};
+function deleteTxn(id){if(confirm('Delete this transaction?')){state.transactions=state.transactions.filter(x=>x.id!==id);setTombstone('transaction',id);save();toast('Transaction deleted')}}
+function closeModal(id){document.getElementById(id).classList.remove('on')}
+document.querySelectorAll('.modal').forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove('on')});
+function renderStores(){document.getElementById('storeChecks').innerHTML=stores.map((s,i)=>`<label class="store"><input type="checkbox" value="${i}" checked>${s.name}</label>`).join('');updateStoreLinks()}
+function updateStoreLinks(){const q=document.getElementById('storeQuery').value.trim()||'mushroom cultivation equipment';document.getElementById('storeLinks').innerHTML=stores.map(s=>`<a class="shop-link" href="${s.url(q)}" target="_blank"><b>${s.name}</b><span>Search “${esc(q)}” ↗</span></a>`).join('')}
+function searchStores(){const q=document.getElementById('storeQuery').value.trim();if(!q)return toast('Enter a product to search');updateStoreLinks();const selected=[...document.querySelectorAll('#storeChecks input:checked')];if(!selected.length)return toast('Select at least one store');let opened=0;selected.forEach(c=>{if(window.open(stores[+c.value].url(q),'_blank'))opened++});toast(opened===selected.length?`Opened ${opened} store searches`:`Opened ${opened}; allow pop-ups to open all selected stores`)}
+function planKicker(title){if(/^Phase/i.test(title))return title.split('—')[0].trim();if(/Daily|weekly/i.test(title))return'Operations';if(/Seasonal/i.test(title))return'Calendar';if(/Subsidy/i.test(title))return'Finance & Support';if(/Risk/i.test(title))return'Governance';return'Executive Plan'}
+function formatPlanBody(body){return String(body||'').split('\n').map(line=>{const t=line.trim();if(!t)return'<div class="plan-line spacer"></div>';if(/^(STEP \d+|PHASE \d+|MORNING|MIDDAY|EVENING|WEEKLY|EVERY 14 DAYS|WORKER RULES|BUDGET CONTROL|APPLICATION STEPS|PLANNING RULE|JAN|MAR|MAY|JUL|SEP|OCT|HIGH|MEDIUM|LOW)/i.test(t))return`<div class="plan-line heading">${esc(t)}</div>`;if(/^[•\-]/.test(t))return`<div class="plan-line bullet">${esc(t.replace(/^[•\-]\s*/,''))}</div>`;if(/^□/.test(t))return`<div class="plan-line check">${esc(t.replace(/^□\s*/,''))}</div>`;return`<div class="plan-line">${esc(t)}</div>`}).join('')}
+function renderPlan(){document.getElementById('planSectionCount').textContent=state.plan.length;document.getElementById('planList').innerHTML=state.plan.map(x=>`<article class="plan-item" id="plan-${x.id}"><header class="plan-item-head"><div class="plan-number"></div><div><div class="plan-kicker">${esc(planKicker(x.title))}</div><div class="plan-title">${esc(x.title.replace(/^Phase \d+\s*[—-]\s*/i,''))}</div></div><div class="plan-menu-wrap"><button class="plan-menu-button" aria-label="Post options" aria-expanded="false" onclick="togglePlanMenu('${x.id}',event)">...</button><div class="plan-menu" id="plan-menu-${x.id}"><button onclick="togglePlanEdit('${x.id}')">Edit post</button><button class="delete" onclick="deletePlan('${x.id}')">Delete post</button></div></div></header><div class="plan-body"><div class="plan-reading">${formatPlanBody(x.body)}</div><div class="plan-editor"><textarea rows="1" oninput="autoGrow(this);updatePlan('${x.id}',this.value)">${esc(x.body)}</textarea><div class="plan-editor-actions"><button class="btn plan-save" onclick="togglePlanEdit('${x.id}')">Save post</button></div></div></div></article>`).join('');autoGrowAll()}
+function closePlanMenus(){document.querySelectorAll('.plan-menu.open').forEach(m=>m.classList.remove('open'));document.querySelectorAll('.plan-menu-button[aria-expanded="true"]').forEach(b=>b.setAttribute('aria-expanded','false'))}
+function togglePlanMenu(id,event){event.stopPropagation();const menu=document.getElementById(`plan-menu-${id}`),button=event.currentTarget,opening=!menu.classList.contains('open');closePlanMenus();if(opening){menu.classList.add('open');button.setAttribute('aria-expanded','true')}}
+function togglePlanEdit(id){closePlanMenus();const card=document.getElementById(`plan-${id}`);if(!card)return;card.classList.toggle('editing');if(card.classList.contains('editing')){const area=card.querySelector('textarea');autoGrow(area);area.focus()}else renderPlan()}
+function addPlanSection(){const title=prompt('Section title');if(!title)return;state.plan.push({id:uid(),title,body:'',updatedAt:new Date().toISOString()});save()}
+function updatePlan(id,body){const plan=state.plan.find(x=>x.id===id);plan.body=body;plan.updatedAt=new Date().toISOString();state.updatedAt=plan.updatedAt;localStorage.setItem(KEY,JSON.stringify(state));queueCloudSync()}
+function deletePlan(id){if(confirm('Delete this plan section?')){state.plan=state.plan.filter(x=>x.id!==id);setTombstone('plan',id);save()}}
+function exportData(){download(`mushroom-farm-backup-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(state,null,2),'application/json')}
+function download(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function exportCSV(kind){const rows=kind==='items'?state.items:state.transactions;if(!rows.length)return toast('Nothing to export');const keys=kind==='items'?['name','category','qty','unit','budgetPrice','actualPrice','supplier','status','date','url','notes']:['date','description','category','type','method','amount','reference','notes'];const csv=[keys.join(','),...rows.map(r=>keys.map(k=>`"${String(r[k]??'').replaceAll('"','""')}"`).join(','))].join('\n');download(`${kind}-${new Date().toISOString().slice(0,10)}.csv`,csv,'text/csv');toast('CSV exported')}
+document.getElementById('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.items||!x.transactions)throw Error();state=Object.assign(fresh(),x);save();toast('Backup imported')}catch{alert('This is not a valid Mushroom Farm Manager backup.')}};r.readAsText(f);e.target.value=''};
+function resetData(){if(confirm('Reset all saved app data? This cannot be undone unless you exported a backup.')){state=fresh();save();toast('App reset')}}
+['itemSearch','itemStatus','itemCategory'].forEach(id=>document.getElementById(id).addEventListener('input',renderItems));
+['txnSearch','txnType'].forEach(id=>document.getElementById(id).addEventListener('input',renderCash));
+document.getElementById('quickNotes').addEventListener('input',e=>{state.quickNotes=e.target.value;state.settingsUpdatedAt=new Date().toISOString();state.updatedAt=state.settingsUpdatedAt;localStorage.setItem(KEY,JSON.stringify(state));queueCloudSync()});
+document.getElementById('openingBalance').addEventListener('change',e=>{state.openingBalance=+e.target.value||0;state.settingsUpdatedAt=new Date().toISOString();save()});
+document.getElementById('farmName').addEventListener('change',e=>{state.farmName=e.target.value;state.settingsUpdatedAt=new Date().toISOString();save()});
+document.getElementById('storeQuery').addEventListener('input',updateStoreLinks);
+document.addEventListener('input',e=>{if(e.target.matches('textarea:not(.codebox)'))autoGrow(e.target)});
+document.addEventListener('click',e=>{if(!e.target.closest('.plan-menu-wrap'))closePlanMenus()});
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('transitionend',autoGrowAll));
+renderStores();renderAll();if(syncReady())cloudPull(false);
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){navigator.serviceWorker.register('/sw.js').then(()=>updateInstallStatus('Offline files cached · ready to install',true)).catch(()=>updateInstallStatus('Open the deployed HTTPS website to enable installation'))}else updateInstallStatus('Deploy to HTTPS to enable installation and offline caching');
+window.addEventListener('online',()=>{updateConnectionStatus();if(syncReady())cloudPull(false)});
+window.addEventListener('offline',updateConnectionStatus);
+updateConnectionStatus();
+setInterval(()=>{if(syncReady()&&!document.hidden)cloudPull(false)},30000);
+document.addEventListener('visibilitychange',()=>{if(syncReady()&&!document.hidden)cloudPull(false)});
+</script>
+</body>
+</html>
